@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Space Trivia Chatbot</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap');
+        
+        body {
+            font-family: 'Orbitron', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: url("{{ url_for('static', filename='images/blackhole.jpg') }}") no-repeat center center fixed; 
+            background-size: cover;
+            margin: 0;
+            padding: 0 20px;
+            flex-direction: column;
+            color: white;
+        }
+
+        .chat-container {
+            width: 600px;
+            max-width: 100%;
+            background-color: rgba(0, 0, 0, 0.888);
+            border: 2px solid #00e5ff;
+            box-shadow: 0px 0px 20px rgba(0, 229, 255, 0.6);
+            border-radius: 15px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            height: 80vh;
+        }
+
+        .chat-box {
+            flex-grow: 1;
+            padding: 20px;
+            overflow-y: scroll;
+            background-color: rgba(255, 255, 255, 0.05);
+            border-bottom: 1px solid #00e5ff;
+            color: #ffffff;
+        }
+
+        .chat-box p {
+            margin: 0;
+            padding: 10px;
+            border-radius: 5px;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+
+        .chat-box .user, .chat-box .bot {
+            display: block;
+            max-width: 100%;
+            width: auto;
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 15px;
+        }
+
+        .chat-box .user {
+            background-color: #00e5ff;
+            color: black;
+            width:fit-content;  
+            border-radius: 15px 15px 0 15px;
+            max-width: 70%;
+            margin-left: auto;
+        }
+
+        .chat-box .bot {
+            background-color: rgba(255, 255, 255, 0.15);
+            color: #ffffff;
+            width:fit-content;
+            border-radius: 15px 15px 15px 0;
+            max-width: 70%;
+        }
+
+        .input-box {
+            display: flex;
+            border-top: 1px solid #00e5ff;
+            padding: 10px;
+            background-color: rgba(0, 0, 0, 0.8);
+        }
+
+        .input-box input {
+            flex-grow: 1;
+            padding: 10px;
+            border: 1px solid #00e5ff;
+            border-radius: 5px;
+            font-size: 16px;
+            background-color: rgba(0, 0, 0, 0.7);
+            color: white;
+        }
+
+        .input-box button {
+            background-color: #00e5ff;
+            color: black;
+            border: none;
+            padding: 10px 15px;
+            margin-left: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .input-box button:hover {
+            background-color: #00c5e5;
+        }
+
+        .image-container img {
+            width: 200px; 
+            height: auto; 
+            display: block;
+            margin: 20px auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="image-container">
+        <img src="{{ url_for('static', filename='images/image.png') }}" alt="Space Logo" style="width:35vh">
+    </div>
+    <div class="chat-container">
+        <div class="chat-box" id="chat-box"></div>
+        <div class="input-box">
+            <input type="text" id="user-input" placeholder="Type your cosmic question..." onkeydown="if (event.key === 'Enter') sendMessage()" />
+            <button onclick="sendMessage()">Send</button>
+        </div>
+    </div>
+
+    <script>
+        // Scroll to the bottom of chat-box automatically
+        function scrollToBottom() {
+            var chatBox = document.getElementById("chat-box");
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+
+        // Function to send a message
+        function sendMessage() {
+            const userInput = document.getElementById("user-input").value;
+            if (userInput.trim() === "") return;
+
+            // Display the user's message
+            const chatBox = document.getElementById("chat-box");
+            chatBox.innerHTML += `<p class="user">${userInput}</p>`;
+
+            // Scroll to the bottom
+            scrollToBottom();
+
+            // Clear the input field
+            document.getElementById("user-input").value = "";
+
+            // Send the message to the backend (Assuming Python is handling the backend)
+            fetch('http://127.0.0.1:5000/chatbot', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ message: userInput }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Display the bot's response with preserved whitespace and new lines
+                const botResponse = data.response;
+                chatBox.innerHTML += `<div class="bot">${botResponse}</div>`;
+                scrollToBottom();
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+        }
+    </script>
+
+</body>
+</html>
