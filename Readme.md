@@ -1,6 +1,6 @@
 # AstroBot 🚀 : Space Trivia Chatbot
 
-This is a space-themed chatbot that answers trivia questions related to space. The bot is built using HTML, JavaScript for the front end, and Python for the backend (assumed to be using Flask). The chatbot interacts with users, responding to questions about space in real-time. 🌌
+This is a space-themed chatbot that answers trivia questions related to space. The bot is built using HTML, JavaScript for the front end, and Python for the backend. The chatbot interacts with users, responding to questions about space in real-time. 🌌
 
 ## Features ✨
 
@@ -13,7 +13,7 @@ This is a space-themed chatbot that answers trivia questions related to space. T
 Make sure you have the following installed:
 
 - Python 3.x 🐍
-- Flask (or another Python web framework) 🌐
+- Flask 🌐
 - Basic knowledge of HTML/CSS/JS 📄
 
 ## Setup Instructions ⚙️
@@ -21,8 +21,8 @@ Make sure you have the following installed:
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/your-username/space-trivia-chatbot.git
-cd space-trivia-chatbot
+git clone https://github.com/Ajinkya1718/AstroBot.git
+cd AstroBot
 ```
 
 ### 2. Install Dependencies
