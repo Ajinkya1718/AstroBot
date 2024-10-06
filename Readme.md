@@ -61,5 +61,5 @@ http://127.0.0.1:5000/
 ├── server.py               # Python backend server (Flask)
 ├── templates
 │   └── index.html          # Main chatbot HTML page
-└── README.md               # Project instructions (this file)
+└── README.md               # Project instructions
 ```
